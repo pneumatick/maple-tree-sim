@@ -96,6 +96,27 @@ while running:
         # Increment the age of the maple
         maple.increment_age()
 
+    # Handle squirrel behavior (second squirrel loop)
+    for squirrel in squirrels:        
+        # Eating
+        if map_data[squirrel.y][squirrel.x] == 1:
+            squirrel.increment_energy()
+            for maple in maples:
+                if maple.x == squirrel.x and maple.y == squirrel.y:
+                    maples.remove(maple)
+                    break
+        # Breeding
+        if squirrel.energy >= 3:
+            new_squirrels = squirrel.reproduce()
+            for new in new_squirrels:
+                map_data[new.y][new.x] = 3
+                squirrels.append(new)
+            squirrel.reset_energy()
+
+        '''# Render the squirrel
+        map_data[squirrel.y][squirrel.x] = 3'''
+
+        squirrel.increment_age()
 
     # Draw the map
     for row in range(MAP_HEIGHT):
